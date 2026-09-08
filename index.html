@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guia alimentar completo para a família — plano nutricional, lista de compras, dicas de congelamento e receitas práticas.">
+<title>Guia do João Davi</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --rose: #BD5F73;
+  --rose-light: #F2DCE1;
+  --sage: #5A8F7E;
+  --sage-light: #DCF0EA;
+  --amber: #C8873A;
+  --amber-light: #FAF0E3;
+  --bg: #F7F5F8;
+  --card: #FFFFFF;
+  --text: #2E2C3C;
+  --body: #4A4760;
+  --muted: #7B7990;
+  --border: #E8E5EF;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C1B26; --card: #26253A; --text: #F0EEF8; --body: #C8C5DC;
+    --muted: #8E8BA8; --border: #38364F; --rose-light: #3A1E25; --sage-light: #1A2E28; --amber-light: #2E2213;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1C1B26; --card: #26253A; --text: #F0EEF8; --body: #C8C5DC;
+  --muted: #8E8BA8; --border: #38364F; --rose-light: #3A1E25; --sage-light: #1A2E28; --amber-light: #2E2213;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--body); font-size: 15px; line-height: 1.6; }
+
+header { background: var(--card); border-bottom: 2px solid var(--rose); padding: 16px 20px; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; gap: 14px; }
+.header-icon { width: 42px; height: 42px; background: var(--rose); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; flex-shrink: 0; }
+header h1 { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--text); }
+header p { font-size: 0.78rem; color: var(--muted); }
+
+nav { background: var(--card); border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; gap: 0; }
+nav button { flex-shrink: 0; padding: 14px 18px; background: none; border: none; border-bottom: 3px solid transparent; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all .2s; white-space: nowrap; }
+nav button.active { border-bottom-color: var(--rose); color: var(--rose); }
+nav button:hover:not(.active) { color: var(--text); }
+
+main { max-width: 860px; margin: 0 auto; padding: 24px 16px 60px; }
+
+.tab { display: none; }
+.tab.active { display: block; }
+
+h2 { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--text); margin-bottom: 20px; }
+h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--text); margin-bottom: 10px; }
+
+/* Toggle Opção */
+.opcao-toggle { display: flex; gap: 8px; margin-bottom: 24px; }
+.opcao-toggle button { flex: 1; padding: 10px; border: 2px solid var(--border); border-radius: 10px; background: var(--card); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 0.85rem; cursor: pointer; color: var(--muted); transition: all .2s; }
+.opcao-toggle button.active { border-color: var(--rose); background: var(--rose); color: white; }
+
+.opcao-panel { display: none; }
+.opcao-panel.active { display: block; }
+
+/* Meal card */
+.meal { background: var(--card); border-radius: 14px; border: 1px solid var(--border); margin-bottom: 14px; overflow: hidden; }
+.meal-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; cursor: pointer; }
+.meal-time { background: var(--rose); color: white; font-weight: 700; font-size: 0.78rem; border-radius: 6px; padding: 4px 9px; white-space: nowrap; }
+.meal-name { font-weight: 600; color: var(--text); font-size: 0.92rem; }
+.chevron { color: var(--muted); transition: transform .2s; font-size: 0.8rem; }
+.meal.open .chevron { transform: rotate(180deg); }
+.meal-body { display: none; padding: 0 18px 18px; }
+.meal.open .meal-body { display: block; }
+
+.food-list { list-style: none; margin-bottom: 14px; }
+.food-list li { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; display: flex; gap: 8px; align-items: baseline; }
+.food-list li:last-child { border: none; }
+.food-list li::before { content: "•"; color: var(--rose); flex-shrink: 0; }
+
+.sub-box { background: var(--sage-light); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
+.sub-box h4 { font-size: 0.75rem; font-weight: 700; color: var(--sage); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.sub-box ul { list-style: none; }
+.sub-box ul li { font-size: 0.82rem; padding: 3px 0; display: flex; gap: 6px; }
+.sub-box ul li::before { content: "↔"; color: var(--sage); flex-shrink: 0; }
+
+.tip-box { background: var(--amber-light); border-radius: 10px; padding: 12px 14px; font-size: 0.83rem; color: var(--text); border-left: 3px solid var(--amber); }
+.tip-box strong { color: var(--amber); display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+
+/* Shopping list */
+.shop-progress { background: var(--border); border-radius: 99px; height: 8px; margin-bottom: 20px; overflow: hidden; }
+.shop-bar { background: var(--sage); height: 100%; border-radius: 99px; transition: width .3s; }
+.shop-label { font-size: 0.82rem; color: var(--muted); margin-bottom: 6px; text-align: right; }
+
+.shop-cat { margin-bottom: 20px; }
+.shop-cat h3 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--rose); margin-bottom: 10px; border-bottom: 1px solid var(--rose-light); padding-bottom: 6px; }
+.shop-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background .15s; }
+.shop-item:hover { background: var(--border); }
+.shop-item input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--sage); cursor: pointer; flex-shrink: 0; }
+.shop-item label { font-size: 0.88rem; cursor: pointer; }
+.shop-item.checked label { text-decoration: line-through; color: var(--muted); }
+
+.reset-btn { display: block; margin: 20px auto 0; padding: 9px 22px; background: none; border: 2px solid var(--border); border-radius: 8px; color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.82rem; cursor: pointer; }
+.reset-btn:hover { border-color: var(--rose); color: var(--rose); }
+
+/* Cards genéricos */
+.card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px; }
+.card h3 { margin-bottom: 12px; }
+
+.freeze-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+.freeze-item:last-child { border: none; }
+.freeze-icon { font-size: 1.2rem; flex-shrink: 0; }
+.freeze-item strong { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
+
+.tip-card { background: var(--amber-light); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--amber); }
+.tip-card h3 { font-size: 0.92rem; color: var(--amber); margin-bottom: 6px; }
+.tip-card p, .tip-card li { font-size: 0.85rem; }
+.tip-card ul { list-style: none; padding: 0; }
+.tip-card ul li { padding: 3px 0; }
+.tip-card ul li::before { content: "✓ "; color: var(--sage); font-weight: 700; }
+
+/* Hidratação */
+.hidra-section { background: var(--card); border-radius: 14px; border: 1px solid var(--border); padding: 20px; margin-bottom: 14px; text-align: center; }
+.hidra-glasses { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 16px 0; }
+.glass-btn { font-size: 1.8rem; cursor: pointer; background: none; border: 2px solid var(--border); border-radius: 10px; padding: 8px 10px; transition: all .2s; }
+.glass-btn.filled { border-color: var(--sage); background: var(--sage-light); }
+.hidra-count { font-family: 'Fraunces', serif; font-size: 2rem; color: var(--sage); }
+.hidra-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+.hidra-reset { margin-top: 12px; font-size: 0.78rem; color: var(--muted); cursor: pointer; background: none; border: none; text-decoration: underline; }
+
+/* Receitas */
+.receita { background: var(--card); border-radius: 14px; border: 1px solid var(--border); margin-bottom: 14px; overflow: hidden; }
+.receita-header { padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.receita-header h3 { margin: 0; font-size: 0.98rem; }
+.receita-body { display: none; padding: 0 18px 18px; }
+.receita.open .receita-body { display: block; }
+.receita.open .chevron { transform: rotate(180deg); }
+.step { display: flex; gap: 12px; padding: 8px 0; font-size: 0.85rem; }
+.step-num { background: var(--rose); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+
+/* Lembretes */
+.lembrete { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 14px; margin-bottom: 10px; }
+.lembrete-icon { font-size: 1.4rem; flex-shrink: 0; }
+.lembrete h3 { font-size: 0.9rem; margin-bottom: 4px; }
+.lembrete p { font-size: 0.82rem; color: var(--muted); }
+
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+.tl-item { position: relative; padding: 8px 0 8px 20px; font-size: 0.85rem; }
+.tl-item::before { content: ''; position: absolute; left: -8px; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--rose); border: 2px solid var(--bg); }
+.tl-item.sage::before { background: var(--sage); }
+.tl-item strong { display: block; color: var(--text); }
+
+@media (max-width: 480px) {
+  nav button { padding: 12px 12px; font-size: 0.76rem; }
+  h2 { font-size: 1.2rem; }
+}
+</style>
+
+<header>
+  <div class="header-icon">🥦</div>
+  <div>
+    <h1>Guia do João Davi</h1>
+    <p>11 anos · Plano alimentar completo · Nutricionista Mylena Cristina CRN-11 17328/P</p>
+  </div>
+</header>
+
+<nav>
+  <button class="active" onclick="showTab('plano',this)">🍽 Plano</button>
+  <button onclick="showTab('compras',this)">🛒 Compras</button>
+  <button onclick="showTab('congelar',this)">❄️ Congelar</button>
+  <button onclick="showTab('dicas',this)">💡 Dicas</button>
+
+</nav>
+
+<main>
+
+<!-- PLANO -->
+<div id="tab-plano" class="tab active">
+  <h2>Plano Alimentar</h2>
+  <div class="opcao-toggle">
+    <button class="active" onclick="showOpcao(1,this)">Opção 1</button>
+    <button onclick="showOpcao(2,this)">Opção 2</button>
+  </div>
+
+  <!-- OPÇÃO 1 -->
+  <div id="opcao-1" class="opcao-panel active">
+    <!-- 06h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">06:00</span>
+        <span class="meal-name">Café da Manhã</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Pão integral (1 fatia, ~25g)</li>
+          <li>Queijo muçarela <strong>sem lactose</strong> (1 fatia, ~15g)</li>
+          <li>Leite integral <strong>sem lactose</strong> (1 xícara, 200ml)</li>
+          <li>Cacau em pó puro (1 col. sopa, 10g)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Pão:</strong> cuscuz cozido (4 col. sopa, 80g) OU macaxeira cozida (2 pedaços, 60g) OU crepioca simples (1 un.)</li>
+            <li><strong>Queijo muçarela:</strong> requeijão light sem lactose (1 col. sopa) OU ricota (30g) OU cottage (30g) OU minas frescal light sem lactose (20g)</li>
+            <li><strong>Leite:</strong> iogurte natural sem lactose (170g)</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Dica clínica</strong>O cacau em pó puro (sem açúcar) adiciona flavonoides com potencial anti-inflamatório. Dissolva no leite morno antes de servir para melhor aceitação.</div>
+      </div>
+    </div>
+
+    <!-- 09h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">09:00</span>
+        <span class="meal-name">Lancheira Escolar</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Melancia (1 fatia média, 200g)</li>
+          <li>Queijo muçarela sem lactose (1 fatia, 15g) <strong>OU</strong> ovo de codorna cozido (4 un.)</li>
+          <li>Suco de laranja natural (300ml, ~3 laranjas)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Melancia:</strong> tangerina (2 un.) OU maçã (1 un.) OU pera (1 un.) OU banana prata (1 un.) OU manga (80g)</li>
+            <li><strong>Queijo:</strong> minas frescal light sem lactose (20g) OU ricota (30g)</li>
+            <li><strong>Ovo de codorna:</strong> ovo de galinha cozido (1 un.)</li>
+            <li><strong>Suco de laranja 300ml:</strong> suco de tangerina (300ml) OU suco de melancia (350ml) OU suco de maracujá (300ml) OU suco de abacaxi (280ml)</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Conservação na lancheira</strong>Melancia: cubinhos em pote hermético (dura 3 dias na geladeira). Suco: garrafa bem fechada e cheia. Ovos de codorna: com casca até 5 dias. Use bag com gelo para manter a temperatura.</div>
+      </div>
+    </div>
+
+    <!-- 13h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">13:00</span>
+        <span class="meal-name">Almoço</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Arroz branco cozido (5 col. sopa cheias, 175g cozido)</li>
+          <li>Feijão cozido (4 col. sopa, 120g)</li>
+          <li>Carne bovina assada (1 bife, 80g)</li>
+          <li>Salada ou verdura cozida (à vontade — exposição)</li>
+          <li>Sobremesa: brigadeiro s/ açúcar (1 un.) <strong>ou</strong> picolé zero (1 un.)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Arroz:</strong> macarrão integral cozido (100g) OU cuscuz cozido (8 col. sopa, 160g) OU arroz integral cozido (5 col. sopa)</li>
+            <li><strong>Feijão:</strong> lentilha cozida (3 col. sopa) OU grão-de-bico cozido (3 col. sopa)</li>
+            <li><strong>Carne bovina 80g:</strong> peixe 120g + fio de azeite OU lombo suíno 90g OU sardinha em lata 100g OU atum em lata 80g + azeite</li>
+            <li><strong>Brigadeiro zero:</strong> gelatina zero (100g) OU mousse de cacau zero OU banana amassada + cacau + canela</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Estratégia de exposição alimentar</strong>Verduras mais aceitas por crianças quando cozidas: cenoura, chuchu e abobrinha refogados no alho. Coloque no prato sem cobrar — exposição sem obrigação é a chave para ampliar o repertório.</div>
+      </div>
+    </div>
+
+    <!-- 16h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">16:00</span>
+        <span class="meal-name">Lanche da Tarde (pré-treino)</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Crepioca de aveia, banana e canela (1 un., ~80g antes de fritar)</li>
+          <li>Iogurte de morango sem lactose (200ml)</li>
+          <li>Granola (2 col. sopa, 30g)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Crepioca:</strong> panqueca de aveia com banana (1 un.) OU cuscuz cozido (5 col. sopa, 100g) OU pão integral (1 fatia) + banana</li>
+            <li><strong>Granola:</strong> aveia em flocos finos (2 col. sopa) OU mix de castanhas (1 col. sopa, 15g)</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>3 versões da crepioca</strong>Original (frigideira) OU Bowl: banana amassada + aveia + iogurte (sem fritar) OU Vitamina: bater tudo no liquidificador com leite sem lactose. Ótimo para quando ele está sem fome antes do treino.</div>
+      </div>
+    </div>
+
+    <!-- 19h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">19:00</span>
+        <span class="meal-name">Jantar (pós-treino)</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Pão francês (1 un., 50g)</li>
+          <li>Queijo muçarela sem lactose (1 fatia, 15g)</li>
+          <li>Salada crua (à vontade)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Pão francês:</strong> pão integral light (2 fatias) OU wrap integral (1 un.) OU biscoito de arroz (4 un.) + requeijão sem lactose</li>
+            <li><strong>Queijo muçarela:</strong> minas frescal light sem lactose (25g) OU ricota light (30g)</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Ritual do jantar</strong>Montar o prato completo antes de sentar. Após jantar: 15-20 min de atividade de transição (banho, leitura, tela leve) antes de deitar — favorece digestão e regulação do sono.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPÇÃO 2 -->
+  <div id="opcao-2" class="opcao-panel">
+    <!-- 06:30 -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">06:30</span>
+        <span class="meal-name">Café da Manhã</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Ovo de galinha (1 un.)</li>
+          <li>Tapioca de goma (3 col. sopa, 30g de goma)</li>
+          <li>Requeijão sem lactose (1 col. sobremesa, 20g)</li>
+          <li>Queijo coalho zero lactose (1 fatia, 30g)</li>
+          <li>Melancia (1 fatia, 100g)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Melancia:</strong> laranja (1 un.) OU tangerina (2 un.)</li>
+            <li><strong>Versão crepioca cremosa:</strong> bater ovo + goma + requeijão, adicionar cebolinha ou tomate picado antes de fritar</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Dica de preparo</strong>A tapioca pode ser preparada à noite: hidrate a goma e deixe na geladeira. Pela manhã, monte a tapioca em 5 minutos. Se quiser envolver o João, deixe ele colocar o recheio.</div>
+      </div>
+    </div>
+
+    <!-- 09h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">09:00</span>
+        <span class="meal-name">Lancheira Escolar</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Iogurte natural sem lactose (1 un., 170g)</li>
+          <li>Uva (10 un., ~80g)</li>
+          <li>Banana (1 un. pequena, 80g)</li>
+          <li>Castanha de caju (5 un., 15g)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Iogurte:</strong> bebida láctea proteica (YoPro OU Italac Whey OU Betânia YoBem)</li>
+            <li><strong>Uva:</strong> morango (4 un.) OU kiwi (1 un.)</li>
+            <li><strong>Banana:</strong> maçã (1 un.) OU pera (1 un.)</li>
+            <li><strong>Castanha de caju:</strong> semente de girassol (1 col. sopa) OU gergelim (1 col. sopa)</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Lancheira inteligente</strong>Monte em compartimentos separados para manter a textura. As castanhas podem ir em sachê pequeno. Iogurte: verifique se a embalagem é lacrada para lancheira.</div>
+      </div>
+    </div>
+
+    <!-- 13h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">13:00</span>
+        <span class="meal-name">Almoço</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Macarrão cozido (4 garfadas, 120g cozido)</li>
+          <li>Macaxeira assada (1 pedaço, 100g)</li>
+          <li>Carne moída refogada (3 col. sopa cheias, ~90g)</li>
+          <li>Salada ou verdura cozida (à vontade)</li>
+          <li>Sobremesa: laranja (1 un.)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Macarrão:</strong> arroz branco cozido (5 col. sopa) OU cuscuz cozido (8 col. sopa)</li>
+            <li><strong>Macaxeira:</strong> cuscuz cozido adicional OU mandioca cozida (mesmo peso)</li>
+            <li><strong>Carne moída:</strong> frango desfiado não (não gosta) → peixe desfiado (90g) OU atum (80g)</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Estratégia de neofobia</strong>Adicione brócolis e cenoura em palito à carne moída durante o refogado. Sirva os legumes ao canto do prato sem cobrar. A exposição repetida sem pressão é o caminho para ampliar o repertório de forma sustentável.</div>
+      </div>
+    </div>
+
+    <!-- 16h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">16:00</span>
+        <span class="meal-name">Lanche da Tarde (pré-treino)</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Bebida láctea proteica (1 un.) — YoPro OU Italac Whey OU Betânia YoBem</li>
+          <li>Pão francês (1 un., 50g)</li>
+          <li>Ovo de galinha cozido (1 un.)</li>
+          <li>Uva (10 un., ~80g)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições</h4>
+          <ul>
+            <li><strong>Bebida proteica:</strong> iogurte grego sem lactose (170g) + 1 col. sopa de mel</li>
+            <li><strong>Uva:</strong> maçã (1 un.) OU banana (1 un.)</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Pré-treino</strong>Serve às 16h para treino às 17h. Garante glicogênio para atividade física sem desconforto digestivo. A proteína + carboidrato prepara o músculo para o treino de academia.</div>
+      </div>
+    </div>
+
+    <!-- 19h -->
+    <div class="meal" onclick="toggleMeal(this)">
+      <div class="meal-header">
+        <span class="meal-time">19:00</span>
+        <span class="meal-name">Jantar (pós-treino)</span>
+
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meal-body">
+        <ul class="food-list">
+          <li>Rap10 integral (1 un.)</li>
+          <li>Hambúrguer caseiro de carne bovina (1 un., 56g)</li>
+          <li>Requeijão sem lactose (1 col. sopa)</li>
+          <li>Queijo muçarela sem lactose (1 fatia)</li>
+          <li>Salada crua (à vontade)</li>
+          <li>Suco de caju natural (250ml)</li>
+        </ul>
+        <div class="sub-box">
+          <h4>Substituições hambúrguer</h4>
+          <ul>
+            <li>Carne moída temperada (3 col. sopa) OU picadinho com legumes OU bife em tiras acebolado</li>
+          </ul>
+        </div>
+        <div class="tip-box"><strong>Molho especial (dura 15-20 dias na geladeira)</strong>Bater no processador: requeijão + azeite + alho + coentro + cebolinha. Use no wrap, no pão ou no arroz. Deixe o João participar da montagem — ofereça tomate ou milho para ele escolher o que coloca.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPRAS -->
+<div id="tab-compras" class="tab">
+  <h2>Lista de Compras</h2>
+  <div class="shop-label" id="shop-label">0 de 0 itens marcados</div>
+  <div class="shop-progress"><div class="shop-bar" id="shop-bar" style="width:0%"></div></div>
+
+  <div id="shopping-list"></div>
+  <button class="reset-btn" onclick="resetList()">↺ Limpar marcações</button>
+</div>
+
+<!-- CONGELAR -->
+<div id="tab-congelar" class="tab">
+  <h2>Dicas de Congelamento</h2>
+  <div class="card">
+    <h3>🧊 O que congelar e como</h3>
+    <div class="freeze-item"><span class="freeze-icon">🥩</span><div><strong>Hambúrguer caseiro (4-6 un.)</strong>Molde cru, separe com papel manteiga, congele até 3 meses. Para preparar: descongelar na geladeira (não no micro) e fritar na frigideira antiaderente com fio de azeite.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🫘</span><div><strong>Feijão OU lentilha cozidos</strong>Porções de 120g (4 col. sopa) em potes pequenos ou saquinhos. Dura 3 meses. Descongela no micro em 2 min ou banho-maria.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🍚</span><div><strong>Arroz cozido</strong>Porções de 175g (5 col. sopa) em pote. Dura 3 meses. Descongelar com 1 col. sopa de água no micro, 2-3 min.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🫙</span><div><strong>Carne moída refogada</strong>Porcionar em 90g (3 col. sopa). Congela até 2 meses. Já temperada, facilita preparo do jantar em 10 min.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🍫</span><div><strong>Brigadeiro zero açúcar</strong>Enrolar, congelar em fila no prato, depois passar para saquinho. Dura 2 meses. Descongela em 20 min em temperatura ambiente.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🥚</span><div><strong>Ovos de codorna cozidos</strong>Não congelar — conservar na geladeira com casca até 5 dias. Sem casca: em pote com água, 3 dias.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🫙</span><div><strong>Molho de requeijão (wrap)</strong>Não congelar — dura 15-20 dias na geladeira em pote fechado. Faça quinzenalmente.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🍉</span><div><strong>Melancia</strong>Não congelar — conservar em cubos em pote hermético por até 3 dias na geladeira. Para lancheira: montar no dia.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🟡</span><div><strong>Cuscuz cozido</strong>Porções de 80-160g em pote. Dura 2 meses. Descongela no micro com água ou vapor em 3 min.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🥞</span><div><strong>Crepioca (já frita)</strong>Embrulhar individualmente em papel filme. Dura 1 mês. Descongela na frigideira em 3 min sem óleo.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🟠</span><div><strong>Suco de laranja OU tangerina</strong>Congelar em forminhas de gelo para usar em sucos ou vitaminas. Dura 3 meses. Espremer em quantidade aos domingos.</div></div>
+    <div class="freeze-item"><span class="freeze-icon">🐟</span><div><strong>Peixe OU filé</strong>Cru em porções de 120g. Dura 3 meses. Descongele na geladeira na véspera. Tempere só na hora de preparar.</div></div>
+  </div>
+  <div class="card">
+    <h3>📅 Rotina de Domingo — Prep Semanal</h3>
+    <ul class="food-list">
+      <li>Cozinhar arroz e feijão em quantidade (congelar em porções)</li>
+      <li>Fazer e congelar hambúrgueres caseiros (4-6 un.)</li>
+      <li>Preparar molho de requeijão (dura a semana toda na geladeira)</li>
+      <li>Espremer laranjas e congelar em forminhas de gelo</li>
+      <li>Cortar melancia em cubos para os próximos 3 dias</li>
+      <li>Cozinhar ovos de codorna para a lancheira (dura 5 dias)</li>
+      <li>Pré-misturar granola + castanhas em pote para a semana</li>
+    </ul>
+  </div>
+</div>
+
+<!-- DICAS -->
+<div id="tab-dicas" class="tab">
+  <h2>Dicas Práticas</h2>
+
+  <div class="hidra-section">
+    <h3>💧 Hidratação do dia</h3>
+    <p style="font-size:0.82rem;color:var(--muted);margin:6px 0 12px">Meta: 2,5L por dia (10 copos de 250ml)</p>
+    <div class="hidra-glasses" id="hidra-glasses"></div>
+    <div class="hidra-count" id="hidra-count">0</div>
+    <div class="hidra-label">copos de 250ml bebidos hoje</div>
+    <button class="hidra-reset" onclick="resetHidra()">Reiniciar contagem</button>
+  </div>
+
+  <div class="tip-card">
+    <h3>🏋️ Rotina de Treino (Seg–Sex)</h3>
+    <div class="timeline">
+      <div class="tl-item"><strong>16:00 — Lanche pré-treino</strong>Comer antes de sair para a academia</div>
+      <div class="tl-item sage"><strong>17:00–18:00 — Academia</strong>Beber água durante o treino (500ml)</div>
+      <div class="tl-item"><strong>19:00 — Jantar pós-treino</strong>Refeição proteica para recuperação muscular</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <h3>🍽 Estratégia de Neofobia Alimentar</h3>
+    <ul>
+      <li>Expor sem obrigar — coloque no prato sem comentar</li>
+      <li>Apresentar novos alimentos em pelo menos 10-15 exposições antes de concluir recusa</li>
+      <li>Deixar o João participar do preparo (misturar, servir, montar)</li>
+      <li>Oferecer 2 opções dentro do cardápio, nunca prato único</li>
+      <li>Nunca usar comida como recompensa ou punição</li>
+      <li>Elogiar a tentativa, não o quanto comeu</li>
+    </ul>
+  </div>
+
+  <div class="tip-card">
+    <h3>😰 Ansiedade e Comer Emocional</h3>
+    <ul>
+      <li>Identificar o gatilho antes de oferecer comida (tédio, frustração, cansaço?)</li>
+      <li>15-20 min de atividade de transição após a escola antes da lancheira</li>
+      <li>Estabelecer horários fixos — a regularidade reduz o comer por ansiedade</li>
+      <li>No jantar: montar o prato junto, sentar à mesa sem telas</li>
+      <li>Bebida quente (chá sem açúcar, cacau no leite) pode ajudar à noite</li>
+    </ul>
+  </div>
+
+  <div class="tip-card">
+    <h3>🏫 Lancheira Escolar — Praticidade</h3>
+    <ul>
+      <li>Preparar à noite: cortar melancia, separar ovos, embalar castanhas</li>
+      <li>Usar pote térmico com compartimentos para manter temperatura</li>
+      <li>Suco: garrafa com rosca, cheia até a borda (menos oxidação)</li>
+      <li>Trocar opções ao longo da semana para evitar monotonia</li>
+      <li>Etiqueta com nome e "sem lactose" para os lanches com laticínios</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>📋 Receitas Rápidas</h3>
+    <div class="receita" onclick="toggleReceita(this)">
+      <div class="receita-header"><h3>🍔 Hambúrguer Caseiro</h3><span class="chevron">▼</span></div>
+      <div class="receita-body">
+        <div class="step"><span class="step-num">1</span>Temperar 500g de carne moída com alho, sal, pimenta-do-reino e cebolinha picada</div>
+        <div class="step"><span class="step-num">2</span>Moldar em discos de ~56g cada (pesar com balança ou usar 3 col. sopa)</div>
+        <div class="step"><span class="step-num">3</span>Colocar entre papéis manteiga e congelar em fila no prato</div>
+        <div class="step"><span class="step-num">4</span>Após congelar, passar para saquinho. Usar quando precisar — fritar direto congelado em frigideira</div>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:10px">Rende ~8 unidades. Dura 3 meses no freezer.</p>
+      </div>
+    </div>
+    <div class="receita" onclick="toggleReceita(this)">
+      <div class="receita-header"><h3>🥞 Crepioca Cremosa</h3><span class="chevron">▼</span></div>
+      <div class="receita-body">
+        <div class="step"><span class="step-num">1</span>Bater no liquidificador: 1 ovo + 2 col. sopa de goma de tapioca + 1 col. sopa de requeijão sem lactose</div>
+        <div class="step"><span class="step-num">2</span>Opcional: adicionar cebolinha, tomate picado ou ervas</div>
+        <div class="step"><span class="step-num">3</span>Fritar em frigideira antiaderente sem óleo, em fogo médio-baixo</div>
+        <div class="step"><span class="step-num">4</span>Virar quando firmar nas bordas. Servir com queijo sem lactose</div>
+      </div>
+    </div>
+    <div class="receita" onclick="toggleReceita(this)">
+      <div class="receita-header"><h3>🫙 Molho de Requeijão (para o Wrap)</h3><span class="chevron">▼</span></div>
+      <div class="receita-body">
+        <div class="step"><span class="step-num">1</span>No processador: 4 col. sopa de requeijão sem lactose + 1 col. sopa de azeite</div>
+        <div class="step"><span class="step-num">2</span>Adicionar 1 dente de alho + cebolinha e coentro a gosto</div>
+        <div class="step"><span class="step-num">3</span>Processar até ficar cremoso. Ajustar sal se necessário</div>
+        <div class="step"><span class="step-num">4</span>Guardar em pote com tampa na geladeira. Dura 15-20 dias</div>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:10px">Serve no wrap, no pão francês, no arroz ou com macaxeira.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</main>
+
+<script>
+// Tab navigation
+function showTab(id, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Opção toggle
+function showOpcao(n, btn) {
+  document.querySelectorAll('.opcao-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.opcao-toggle button').forEach(b => b.classList.remove('active'));
+  document.getElementById('opcao-' + n).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Meal accordion
+function toggleMeal(el) { el.classList.toggle('open'); }
+
+// Receita accordion
+function toggleReceita(el) { el.classList.toggle('open'); }
+
+// Shopping list data
+const shopData = [
+  { cat: 'Proteínas', items: ['Carne bovina (para bife e hambúrguer)', 'Carne moída (500g+)', 'Ovo de galinha (cartela 12 un.)', 'Ovo de codorna (embalagem 30 un.)', 'Atum em lata', 'Sardinha em lata', 'Peixe filé (congelado)'] },
+  { cat: 'Laticínios SEM LACTOSE', items: ['Leite integral SEM LACTOSE', 'Iogurte natural SEM LACTOSE', 'Iogurte de morango SEM LACTOSE', 'Queijo muçarela SEM LACTOSE', 'Requeijão SEM LACTOSE', 'Queijo coalho ZERO LACTOSE', 'Queijo minas frescal light SEM LACTOSE', 'Ricota (verificar rotulo)', 'Bebida láctea proteica (YoPro / Italac Whey / Betânia YoBem)'] },
+  { cat: 'Pães, Cereais e Massas', items: ['Pão integral (fatiado)', 'Pão francês', 'Rap10 integral', 'Macarrão (sêmola ou integral)', 'Arroz branco', 'Feijão', 'Lentilha', 'Grão-de-bico', 'Cuscuz (flocos de milho)', 'Aveia em flocos finos', 'Granola (sem açúcar adicionado)', 'Goma de tapioca', 'Biscoito de arroz'] },
+  { cat: 'Frutas', items: ['Melancia', 'Laranja (sumo)', 'Tangerina', 'Maçã', 'Pera', 'Banana prata', 'Uva', 'Morango', 'Manga'] },
+  { cat: 'Verduras, Legumes e Tubérculos', items: ['Macaxeira (aipim)', 'Cenoura', 'Chuchu', 'Abobrinha', 'Tomate', 'Alface / rúcula (salada)', 'Brócolis', 'Milho verde'] },
+  { cat: 'Outros e Temperos', items: ['Cacau em pó puro (sem açúcar)', 'Azeite de oliva', 'Alho', 'Cebola', 'Coentro fresco', 'Cebolinha', 'Canela em pó', 'Sal (pouco)', 'Pimenta-do-reino'] },
+{ cat: 'Utensílios', items: ['Pote hermético (para melancia na lancheira)', 'Garrafa com rosca (suco)', 'Bolsa térmica com gelo (lancheira)', 'Papel manteiga (hambúrguer no freezer)', 'Saquinhos para congelamento'] }
+];
+
+function buildShoppingList() {
+  const container = document.getElementById('shopping-list');
+  const saved = getSaved();
+  let html = '';
+  shopData.forEach((cat, ci) => {
+    html += `<div class="shop-cat"><h3>${cat.cat}</h3>`;
+    cat.items.forEach((item, ii) => {
+      const id = `item-${ci}-${ii}`;
+      const checked = saved[id] || false;
+      html += `<div class="shop-item ${checked ? 'checked' : ''}" onclick="toggleItem(this,'${id}')">
+        <input type="checkbox" id="${id}" ${checked ? 'checked' : ''} onclick="event.stopPropagation();toggleItem(this.closest('.shop-item'),'${id}')">
+        <label for="${id}">${item}</label>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+  updateProgress();
+}
+
+function getSaved() {
+  try { return JSON.parse(localStorage.getItem('joao-shop') || '{}'); } catch(e) { return {}; }
+}
+
+function toggleItem(el, id) {
+  const cb = el.querySelector('input[type=checkbox]');
+  cb.checked = !cb.checked;
+  el.classList.toggle('checked', cb.checked);
+  const saved = getSaved();
+  saved[id] = cb.checked;
+  try { localStorage.setItem('joao-shop', JSON.stringify(saved)); } catch(e) {}
+  updateProgress();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.shop-item');
+  const done = document.querySelectorAll('.shop-item.checked');
+  const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+  document.getElementById('shop-bar').style.width = pct + '%';
+  document.getElementById('shop-label').textContent = `${done.length} de ${all.length} itens marcados`;
+}
+
+function resetList() {
+  try { localStorage.removeItem('joao-shop'); } catch(e) {}
+  document.querySelectorAll('.shop-item').forEach(el => {
+    el.classList.remove('checked');
+    el.querySelector('input').checked = false;
+  });
+  updateProgress();
+}
+
+// Hydration tracker
+function buildHidra() {
+  const glasses = document.getElementById('hidra-glasses');
+  let saved = 0;
+  try { saved = parseInt(localStorage.getItem('joao-hidra') || '0'); } catch(e) {}
+  let html = '';
+  for (let i = 1; i <= 10; i++) {
+    html += `<button class="glass-btn ${i <= saved ? 'filled' : ''}" onclick="toggleGlass(${i})" title="${i * 250}ml">💧</button>`;
+  }
+  glasses.innerHTML = html;
+  document.getElementById('hidra-count').textContent = saved;
+}
+
+function toggleGlass(n) {
+  let current = 0;
+  try { current = parseInt(localStorage.getItem('joao-hidra') || '0'); } catch(e) {}
+  const next = current >= n ? n - 1 : n;
+  try { localStorage.setItem('joao-hidra', next); } catch(e) {}
+  document.getElementById('hidra-count').textContent = next;
+  document.querySelectorAll('.glass-btn').forEach((btn, i) => {
+    btn.classList.toggle('filled', i < next);
+  });
+}
+
+function resetHidra() {
+  try { localStorage.setItem('joao-hidra', 0); } catch(e) {}
+  document.getElementById('hidra-count').textContent = '0';
+  document.querySelectorAll('.glass-btn').forEach(btn => btn.classList.remove('filled'));
+}
+
+// Init
+buildShoppingList();
+buildHidra();
+</script>
+
+</body>
+</html>
